@@ -1,42 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Calculator</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Soft Calculator</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+
+  .calculator {
+    width: 320px;
+    border-radius: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border: 3px solid #000;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+
+  .display {
+    height: 70px;
+    background: #111;
+    color: #fff;
+    font-size: 28px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  button {
+    height: 60px;
+    font-size: 18px;
+    border-radius: 12px;
+    border: 2px solid #000;
+    cursor: pointer;
+    transition: 0.2s ease;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  /* Number buttons - white + soft green */
+  .num {
+    background: #e8fff1;
+  }
+
+  /* Operators - soft pink */
+  .op {
+    background: #ffd6e7;
+  }
+
+  /* Special buttons - green accent */
+  .special {
+    background: #b8f5c8;
+  }
+
+  /* Equals */
+  .equal {
+    background: #ff9ecb;
+    color: white;
+    font-weight: bold;
+  }
+
+  /* Clear */
+  .clear {
+    background: #000;
+    color: #fff;
+  }
+</style>
 </head>
+
 <body>
 
 <div class="calculator">
-  <input type="text" id="display" disabled>
+  <div class="display" id="display">0</div>
 
   <div class="buttons">
-    <button onclick="clearDisplay()" class="ac">AC</button>
-    <button onclick="append('(')">(</button>
-    <button onclick="append(')')">)</button>
-    <button onclick="append('/')">/</button>
+    <button class="special" onclick="append('(')">(</button>
+    <button class="special" onclick="append(')')">)</button>
+    <button class="clear" onclick="clearDisplay()">AC</button>
+    <button class="op" onclick="append('/')">/</button>
 
-    <button onclick="append('7')">7</button>
-    <button onclick="append('8')">8</button>
-    <button onclick="append('9')">9</button>
-    <button onclick="append('*')">*</button>
+    <button class="num" onclick="append('7')">7</button>
+    <button class="num" onclick="append('8')">8</button>
+    <button class="num" onclick="append('9')">9</button>
+    <button class="op" onclick="append('*')">*</button>
 
-    <button onclick="append('4')">4</button>
-    <button onclick="append('5')">5</button>
-    <button onclick="append('6')">6</button>
-    <button onclick="append('-')">-</button>
+    <button class="special" onclick="append('%')">%</button>
+    <button class="num" onclick="append('4')">4</button>
+    <button class="num" onclick="append('5')">5</button>
+    <button class="num" onclick="append('6')">6</button>
 
-    <button onclick="append('1')">1</button>
-    <button onclick="append('2')">2</button>
-    <button onclick="append('3')">3</button>
-    <button onclick="append('+')">+</button>
+    <button class="op" onclick="append('-')">-</button>
+    <button class="special" onclick="append('√')">√</button>
+    <button class="num" onclick="append('1')">1</button>
+    <button class="num" onclick="append('2')">2</button>
 
-    <button onclick="append('0')" class="zero">0</button>
-    <button onclick="append('.')">.</button>
-    <button onclick="calculate()" class="equals">=</button>
+    <button class="num" onclick="append('3')">3</button>
+    <button class="op" onclick="append('+')">+</button>
+
+    <button class="num" onclick="append('.')">.</button>
+    <button class="num" onclick="append('0')">0</button>
+    <button class="equal" onclick="calculate()">=</button>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+let display = document.getElementById("display");
+
+function append(value) {
+  if (display.innerText === "0") {
+    display.innerText = value;
+  } else {
+    display.innerText += value;
+  }
+}
+
+function clearDisplay() {
+  display.innerText = "0";
+}
+
+function calculate() {
+  try {
+    let expression = display.innerText
+      .replace('%', '/100')
+      .replace('√', 'Math.sqrt');
+
+    display.innerText = Function('"use strict";return (' + expression + ')')();
+  } catch {
+    display.innerText = "Error";
+  }
+}
+</script>
+
 </body>
 </html>
