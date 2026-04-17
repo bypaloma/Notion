@@ -1,83 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Paloma Widgets</title>
+  <title>Paloma Notion Widgets</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!--  Google Font (clean + aesthetic) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 40px;
-      background: #fff;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #ac2a13;
+      color: #2b2b2b;
       text-align: center;
     }
 
-    h1 {
-      margin-bottom: 5px;
+    .container {
+      max-width: 520px;
+      margin: auto;
+      padding: 60px 20px;
     }
 
-    p {
-      color: #666;
-      margin-bottom: 30px;
+    .title {
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #7a7a7a;
+      margin-top: 8px;
+      margin-bottom: 40px;
+    }
+
+    .divider {
+      width: 60px;
+      height: 2px;
+      background: #f3c1cc;
+      margin: 30px auto;
+      border-radius: 10px;
     }
 
     .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      max-width: 500px;
-      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 20px;
     }
 
     .card {
-      background: #fff0f3;
-      padding: 20px;
-      border-radius: 12px;
+      background: #ff9797;
+      border: 1px solid #f3e6ea;
+      padding: 18px;
+      border-radius: 16px;
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #f3c1cc;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    }
+
+    .card h2 {
+      font-size: 16px;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #8a8a8a;
+      margin: 6px 0 12px;
     }
 
     a {
       display: inline-block;
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: #e85d75;
+      padding: 8px 14px;
+      background: #f3c1cc;
       color: white;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 999px;
+      font-size: 13px;
+      transition: 0.2s ease;
     }
 
     a:hover {
-      opacity: 0.8;
+      background: #e8aebb;
+    }
+
+    .footer {
+      margin-top: 50px;
+      font-size: 12px;
+      color: #b0b0b0;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>My Notion Widgets</h1>
-  <p>Simple tools for focus, planning, and productivity.</p>
+  <div class="container">
 
-  <div class="grid">
+    <div class="title">Paloma Widgets</div>
+    <div class="subtitle">soft tools for focus, flow & intention</div>
 
-    <div class="card">
-      <h2>Pomodoro Timer</h2>
-      <a href="./pomodoro/index.html" target="_blank">Open</a>
+    <div class="divider"></div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h2>Pomodoro Timer</h2>
+        <p>minimal focus timer for deep work</p>
+        <a href="./pomodoro/index.html" target="_blank">open</a>
+      </div>
+
+      <div class="card">
+        <h2>Pomodoro Mini</h2>
+        <p>compact version for quick sessions</p>
+        <a href="./pomodoro-mini/index.html" target="_blank">open</a>
+      </div>
+
+      <div class="card">
+        <h2>Calculator</h2>
+        <p>simple everyday utility tool</p>
+        <a href="./calculator/index.html" target="_blank">open</a>
+      </div>
+
+      <div class="card">
+        <h2>Timer</h2>
+        <p>clean countdown timer</p>
+        <a href="./timer/index.html" target="_blank">open</a>
+      </div>
+
     </div>
 
-    <div class="card">
-      <h2>Pomodoro Mini</h2>
-      <a href="./pomodoro-mini/index.html" target="_blank">Open</a>
-    </div>
-
-    <div class="card">
-      <h2>Calculator</h2>
-      <a href="./calculator/index.html" target="_blank">Open</a>
-    </div>
-
-    <div class="card">
-      <h2>Timer</h2>
-      <a href="./timer/index.html" target="_blank">Open</a>
+    <div class="footer">
+      made with intention ✿
     </div>
 
   </div>
