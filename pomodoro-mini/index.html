@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Focus With Me · Pomodoro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lexend', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #d17a8a;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 10, 0, 0.38);
+      z-index: 1;
+    }
+
+    /* Main container */
+    .card {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 300px;
+      background: rgba(0,0,0,0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 20px 18px 22px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* Brand */
+    .brand {
+      text-align: center;
+    }
+    .brand h1 {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: white;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+    .brand span {
+      font-size: 0.45rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* Mode tabs */
+    .tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .tab {
+      font-family: 'Lexend', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(255,255,255,0.6);
+      background: transparent;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.02em;
+    }
+    .tab:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+    .tab.active {
+      background: white;
+      color: #b85c00;
+      border-color: white;
+      font-weight: 600;
+    }
+
+    /* Timer */
+    .timer {
+      font-size: 4.5rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      user-select: none;
+    }
+    .timer.break { color: #fff3e0; }
+
+    /* Session dots */
+    .sessions {
+      display: flex;
+      gap: 6px;
+    }
+    .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      border: 1.5px solid rgba(255,255,255,0.55);
+      transition: background 0.3s;
+    }
+    .dot.done { background: white; }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-start {
+      font-family: 'Lexend', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 10px 36px;
+      border-radius: 999px;
+      background: white;
+      color: #b85c00;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.3);
+      transition: all 0.2s;
+    }
+    .btn-start:hover { transform: scale(1.05); }
+    .btn-start:active { transform: scale(0.97); }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 1rem;
+      opacity: 0.8;
+      transition: all 0.2s;
+      padding: 6px;
+    }
+    .btn-icon:hover { opacity: 1; transform: scale(1.15); }
+
+    /* Settings modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: rgba(255, 245, 230, 0.97);
+      border-radius: 18px;
+      padding: 22px 24px;
+      min-width: 240px;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.4);
+      color: #5a2d00;
+    }
+    .modal h2 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .modal label {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+      opacity: 0.7;
+    }
+    .modal input[type=number] {
+      font-family: 'Lexend', sans-serif;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(184, 92, 0, 0.25);
+      background: rgba(255,255,255,0.8);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #5a2d00;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .modal input[type=number]:focus { border-color: #ff7f50; }
+    .modal-btns { display: flex; gap: 8px; margin-top: 4px; }
+    .btn-save, .btn-cancel {
+      font-family: 'Lexend', sans-serif;
+      flex: 1;
+      padding: 9px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-save { background: #ff7f50; color: white; }
+    .btn-save:hover { background: #ff6030; }
+    .btn-cancel { background: rgba(0,0,0,0.08); color: #5a2d00; }
+
+    /* Notification */
+    .notif {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(60px);
+      background: white;
+      color: #b85c00;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+      opacity: 0;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="overlay"></div>
+
+<div class="card">
+  <div class="brand">
+    <h1>study with me</h1>
+    <span>bypaloma.m</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-mode="pomodoro">focus</button>
+    <button class="tab" data-mode="short">short</button>
+    <button class="tab" data-mode="long">long</button>
+  </div>
+
+  <div class="timer" id="timer">25:00</div>
+
+  <div class="sessions" id="sessions">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-icon" id="resetBtn" title="Reset">&#x21BA;</button>
+    <button class="btn-start" id="startBtn">start</button>
+    <button class="btn-icon" id="settingsBtn" title="Settings">⚙</button>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h2>⚙ Settings</h2>
+    <label>Focus (minutes)</label>
+    <input type="number" id="setPomo" min="1" max="99" value="25"/>
+    <label>Short Break (minutes)</label>
+    <input type="number" id="setShort" min="1" max="99" value="5"/>
+    <label>Long Break (minutes)</label>
+    <input type="number" id="setLong" min="1" max="99" value="60"/>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="cancelBtn">Cancel</button>
+      <button class="btn-save" id="saveBtn">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+  let durations = { pomodoro: 25, short: 5, long: 60 };
+  let mode = 'pomodoro';
+  let totalSeconds = durations.pomodoro * 60;
+  let remaining = totalSeconds;
+  let running = false;
+  let interval = null;
+  let completedSessions = 0;
+
+  const timerEl      = document.getElementById('timer');
+  const startBtn     = document.getElementById('startBtn');
+  const resetBtn     = document.getElementById('resetBtn');
+  const settingsBtn  = document.getElementById('settingsBtn');
+  const sessionsEl   = document.getElementById('sessions');
+  const modalOverlay = document.getElementById('modalOverlay');
+  const cancelBtn    = document.getElementById('cancelBtn');
+  const saveBtn      = document.getElementById('saveBtn');
+  const notifEl      = document.getElementById('notif');
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  }
+
+  function render() {
+    timerEl.textContent = formatTime(remaining);
+    timerEl.className = 'timer' + (mode !== 'pomodoro' ? ' break' : '');
+  }
+
+  function setMode(m) {
+    mode = m;
+    totalSeconds = durations[m] * 60;
+    remaining = totalSeconds;
+    running = false;
+    clearInterval(interval);
+    startBtn.textContent = 'start';
+    document.querySelectorAll('.tab').forEach(t =>
+      t.classList.toggle('active', t.dataset.mode === m)
+    );
+    render();
+  }
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d, i) =>
+      d.classList.toggle('done', i < completedSessions % 4)
+    );
+  }
+
+  function showNotif(msg) {
+    notifEl.textContent = msg;
+    notifEl.classList.add('show');
+    setTimeout(() => notifEl.classList.remove('show'), 2800);
+  }
+
+  function tick() {
+    if (remaining <= 0) {
+      clearInterval(interval);
+      running = false;
+      startBtn.textContent = 'start';
+      if (mode === 'pomodoro') {
+        completedSessions++;
+        updateDots();
+        showNotif('🌅 Session done! Take a break.');
+      } else {
+        showNotif('☀️ Break over! Time to focus.');
+      }
+      return;
+    }
+    remaining--;
+    render();
+  }
+
+  startBtn.addEventListener('click', () => {
+    if (running) {
+      clearInterval(interval);
+      running = false;
+      startBtn.textContent = 'start';
+    } else {
+      running = true;
+      startBtn.textContent = 'pause';
+      interval = setInterval(tick, 1000);
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    clearInterval(interval);
+    running = false;
+    startBtn.textContent = 'start';
+    remaining = totalSeconds;
+    render();
+  });
+
+  document.querySelectorAll('.tab').forEach(tab =>
+    tab.addEventListener('click', () => setMode(tab.dataset.mode))
+  );
+
+  settingsBtn.addEventListener('click', () => {
+    document.getElementById('setPomo').value  = durations.pomodoro;
+    document.getElementById('setShort').value = durations.short;
+    document.getElementById('setLong').value  = durations.long;
+    modalOverlay.classList.add('open');
+  });
+
+  cancelBtn.addEventListener('click', () => modalOverlay.classList.remove('open'));
+  modalOverlay.addEventListener('click', e => {
+    if (e.target === modalOverlay) modalOverlay.classList.remove('open');
+  });
+
+  saveBtn.addEventListener('click', () => {
+    durations.pomodoro = parseInt(document.getElementById('setPomo').value)  || 25;
+    durations.short    = parseInt(document.getElementById('setShort').value) || 5;
+    durations.long     = parseInt(document.getElementById('setLong').value)  || 60;
+    modalOverlay.classList.remove('open');
+    setMode(mode);
+    showNotif('✅ Settings saved!');
+  });
+
+  render();
+  updateDots();
+</script>
+</body>
+</html>
