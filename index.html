@@ -1,155 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Paloma Notion Widgets</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paloma — Notion Widgets</title>
 
-  <!--  Google Font (clean + aesthetic) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&family=Nothing+You+Could+Do&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Lexend', lexend;
-      background: #f7f4ee;
-      color: #2b2b2b;
-      text-align: center;
-    }
+<style>
 
-    .container {
-      max-width: 520px;
-      margin: auto;
-      padding: 60px 20px;
-    }
+body {
+  margin: 0;
+  background: #f6f1ea;
+  font-family: 'Inter', sans-serif;
+  color: #222;
+  overflow-x: hidden;
+}
 
-    .title {
-      font-size: 28px;
-      font-weight: 500;
-      letter-spacing: -0.5px;
-    }
+/* BIG BACKGROUND TEXT */
+.bg-text {
+  position: absolute;
+  font-size: 180px;
+  color: #f4a6c0;
+  opacity: 0.25;
+  font-family: 'Playfair Display', serif;
+  z-index: 0;
+  line-height: 0.8;
+}
 
-    .subtitle {
-      font-size: 14px;
-      color: #7a7a7a;
-      margin-top: 8px;
-      margin-bottom: 40px;
-    }
+/* HERO */
+.hero {
+  position: relative;
+  padding: 120px 10%;
+  min-height: 100vh;
+}
 
-    .divider {
-      width: 60px;
-      height: 2px;
-      background: #f3c1cc;
-      margin: 30px auto;
-      border-radius: 10px;
-    }
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
 
-    .grid {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 20px;
-    }
+.hero img {
+  width: 340px;
+  border-radius: 14px;
+  margin-top: 40px;
+}
 
-    .card {
-      background: #ff9797;
-      border: 1px solid #f3e6ea;
-      padding: 18px;
-      border-radius: 16px;
-      transition: 0.2s ease;
-    }
+/* FLOATING TEXT */
+.float {
+  position: absolute;
+  font-family: 'Nothing You Could Do', cursive;
+  font-size: 20px;
+}
 
-    .card:hover {
-      transform: translateY(-2px);
-      border-color: #f3c1cc;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-    }
+.f1 { top: 60px; left: 10%; transform: rotate(-5deg); }
+.f2 { top: 200px; left: 50%; transform: rotate(8deg); }
+.f3 { bottom: 100px; left: 20%; transform: rotate(-4deg); }
 
-    .card h2 {
-      font-size: 16px;
-      margin: 0;
-      font-weight: 500;
-    }
+/* FEATURE WIDGET */
+.feature {
+  margin-top: 80px;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 420px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+}
 
-    .card p {
-      font-size: 13px;
-      color: #8a8a8a;
-      margin: 6px 0 12px;
-    }
+.feature iframe {
+  width: 100%;
+  height: 360px;
+  border: none;
+  border-radius: 12px;
+}
 
-    a {
-      display: inline-block;
-      padding: 8px 14px;
-      background: #f3c1cc;
-      color: white;
-      text-decoration: none;
-      border-radius: 999px;
-      font-size: 13px;
-      transition: 0.2s ease;
-    }
+/* CHAOTIC GRID */
+.widgets {
+  position: relative;
+  padding: 100px 10%;
+}
 
-    a:hover {
-      background: #e8aebb;
-    }
+.widget {
+  position: absolute;
+  background: white;
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  width: 260px;
+}
 
-    .footer {
-      margin-top: 50px;
-      font-size: 12px;
-      color: #b0b0b0;
-    }
-  </style>
+.widget iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  border-radius: 10px;
+}
+
+/* scattered layout */
+.w1 { top: 0; left: 5%; }
+.w2 { top: 120px; right: 10%; }
+.w3 { top: 350px; left: 25%; }
+
+/* footer */
+.footer {
+  text-align: center;
+  padding: 200px 20px 100px;
+  font-size: 42px;
+  font-weight: 600;
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    
-     <!-- Introduction Section -->
-    <div class="intro">
-      <div class="title">Hi, I'm Paloma</div>
-      <div class="subtitle">I love creating widgets to help people focus, plan, and stay productive.</div>
-    </div>
+<!-- HERO -->
+<section class="hero">
 
-    
-    <div class="title">Paloma Widgets</div>
-    <div class="subtitle">soft tools for focus, flow & intention</div>
+  <div class="bg-text">
+    Notion<br>Widgets
+  </div>
 
-    <div class="divider"></div>
+  <div class="float f1">hi, let me be your tour guide ✶</div>
+  <div class="float f2">vibe coding my way through things</div>
+  <div class="float f3">i just like making cute things :)</div>
 
-    <div class="grid">
+  <div class="hero-content">
+    <img src="your-photo.png" alt="Paloma">
 
-      <div class="card">
-        <h2>Pomodoro Timer</h2>
-        <p>minimal focus timer for deep work</p>
-        <a href="./pomodoro/index.html" target="_blank">open</a>
-      </div>
+    <p style="max-width: 400px; margin-top: 20px;">
+      I design and build cute, functional widgets for Notion.
+      This is my space to experiment, create, and just make things that feel good.
+    </p>
 
-      <div class="card">
-        <h2>Pomodoro Mini</h2>
-        <p>compact version for quick sessions</p>
-        <a href="./pomodoro-mini/index.html" target="_blank">open</a>
-      </div>
-
-      <div class="card">
-        <h2>Calculator</h2>
-        <p>simple everyday utility tool</p>
-        <a href="./calculator/index.html" target="_blank">open</a>
-      </div>
-
-      <div class="card">
-        <h2>Timer</h2>
-        <p>clean countdown timer</p>
-        <a href="./timer/index.html" target="_blank">open</a>
-      </div>
-
-    </div>
-
-    <div class="footer">
-      made with intention ✿
+    <!-- FEATURED WIDGET -->
+    <div class="feature">
+      <iframe src="pomodoro/index.html"></iframe>
+      <p>full pomodoro ✶</p>
     </div>
 
   </div>
 
+</section>
+
+<!-- SCATTERED WIDGETS -->
+<section class="widgets">
+
+  <div class="widget w1">
+    <iframe src="pomodoro-mini/index.html"></iframe>
+    <p>mini pomodoro</p>
+  </div>
+
+  <div class="widget w2">
+    <iframe src="calculator/index.html"></iframe>
+    <p>calculator</p>
+  </div>
+
+  <div class="widget w3">
+    <iframe src="timer/index.html"></iframe>
+    <p>timer</p>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<section class="footer">
+  and that’s a wrap.
+</section>
+
 </body>
+
 </html>
+
