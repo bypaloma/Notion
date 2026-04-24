@@ -20,7 +20,7 @@ body {
 /* HERO */
 .hero {
   position: relative;
-  padding: 100px 10% 40px;
+  padding: 100px 10% 60px;
 }
 
 .hero h1 {
@@ -54,7 +54,25 @@ body {
   max-width: 420px;
 }
 
-/* ✨ NEW DIVIDER (OPTION 1) */
+/* SHOP BUTTON */
+.shop-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background: #f4a6c0;
+  color: #222;
+  padding: 12px 22px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.25s;
+}
+
+.shop-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.85;
+}
+
+/* DIVIDER */
 .divider-note {
   margin-top: 60px;
   font-family: 'Nothing You Could Do', cursive;
@@ -74,7 +92,7 @@ body {
   margin-bottom: 40px;
 }
 
-/* CLEAN GRID */
+/* GRID */
 .widget-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -108,6 +126,15 @@ body {
   margin-top: 10px;
   font-size: 14px;
   opacity: 0.7;
+}
+
+/* GUMROAD CARD CENTER */
+.shop-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 260px;
+  font-size: 26px;
 }
 
 /* FOOTER */
@@ -144,7 +171,6 @@ body {
     Notion<br>Widgets
   </h1>
 
-  <!-- YOUR PHOTO -->
   <img src="your-photo.png" alt="Paloma">
 
   <div class="intro">
@@ -152,7 +178,11 @@ body {
     This is my space to experiment, create, and share what I make. Welcome and make yourself at home!
   </div>
 
-  <!-- ✨ OPTION 1 DIVIDER ADDED HERE -->
+  <!-- ✿ SHOP BUTTON -->
+  <a href="https://palomagic74.gumroad.com/" target="_blank" class="shop-btn">
+    ✿ shop my templates
+  </a>
+
   <div class="divider-note">
     explore what I’ve been building ✶
   </div>
@@ -164,6 +194,12 @@ body {
   <h2>my widgets</h2>
 
   <div class="widget-grid">
+
+    <!-- ✿ GUMROAD CARD -->
+    <a href="https://palomagic74.gumroad.com/" target="_blank" class="widget-card">
+      <div class="shop-card">✿</div>
+      <p>shop all templates →</p>
+    </a>
 
     <a href="pomodoro/index.html" target="_blank" class="widget-card">
       <iframe src="pomodoro/index.html"></iframe>
@@ -199,4 +235,3 @@ body {
 
 </body>
 </html>
-
