@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Life Design Widget</title>
+<title>Life Design Affirmation</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -13,6 +13,7 @@
     font-family: 'Lexend', sans-serif !important;
 }
 
+/* ---------- BASE ---------- */
 body {
     margin: 0;
     height: 100vh;
@@ -37,11 +38,11 @@ body.theme-sage { --bg:#eef5f1; --text:#5fa38b; --border:rgba(95,163,139,0.25); 
 body.theme-sky { --bg:#eef6ff; --text:#5aa9ff; --border:rgba(90,169,255,0.25); }
 body.theme-beige { --bg:#f5efe6; --text:#d48aa3; --border:rgba(212,138,163,0.25); }
 
-/* ---------- WIDE CARD ---------- */
+/* ---------- CARD ---------- */
 .widget {
     width: 92%;
-    max-width: 900px;
-    padding: 28px 30px;
+    max-width: 700px;
+    padding: 36px 28px;
 
     border-radius: 26px;
     background: var(--card);
@@ -51,53 +52,48 @@ body.theme-beige { --bg:#f5efe6; --text:#d48aa3; --border:rgba(212,138,163,0.25)
     box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    gap: 30px;
+    justify-content: center;
+
+    text-align: center;
 }
 
-/* LEFT SIDE */
-.left {
-    flex: 2;
-    text-align: left;
-}
-
+/* ---------- AFFIRMATION (BIGGER) ---------- */
 .affirmation {
-    font-size: 1.4rem;
+    font-size: 1.75rem; /* + ~5px bigger feel */
     color: var(--text);
-    line-height: 1.5;
+    line-height: 1.6;
     font-weight: 400;
+    margin-bottom: 18px;
 }
 
-/* RIGHT SIDE */
-.right {
-    flex: 1;
-    text-align: right;
-}
-
+/* ---------- DATE ---------- */
 .date {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text);
     opacity: 0.75;
     margin-bottom: 10px;
 }
 
+/* ---------- CLOCK ---------- */
 .clock {
     font-size: 1.05rem;
     color: var(--text);
     letter-spacing: 1.5px;
     font-weight: 300;
+    margin-bottom: 14px;
 }
 
-/* FOOTER */
+/* ---------- FOOTER ---------- */
 .footer {
-    margin-top: 12px;
     font-size: 0.75rem;
     color: var(--text);
-    opacity: 0.6;
+    opacity: 0.65;
+    margin-top: 6px;
 }
 
-/* THEME SWITCH */
+/* ---------- THEME SWITCH ---------- */
 .theme-switcher {
     position: fixed;
     bottom: 16px;
@@ -112,18 +108,7 @@ select {
     font-family: 'Lexend', sans-serif;
     font-size: 0.75rem;
     outline: none;
-}
-
-/* MOBILE RESPONSIVE */
-@media (max-width: 700px) {
-    .widget {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .left, .right {
-        text-align: center;
-    }
+    cursor: pointer;
 }
 
 </style>
@@ -133,16 +118,16 @@ select {
 
 <div class="widget">
 
-    <div class="left">
-        <div class="affirmation" id="affirmation"></div>
-        <div class="footer">made with intention ✿ bypaloma.m</div>
+    <div class="affirmation" id="affirmation"></div>
+
+    <div class="date" id="date"></div>
+
+    <div class="clock">
+        <span id="hour"></span>:<span id="min"></span>:<span id="sec"></span>
     </div>
 
-    <div class="right">
-        <div class="date" id="date"></div>
-        <div class="clock">
-            <span id="hour"></span>:<span id="min"></span>:<span id="sec"></span>
-        </div>
+    <div class="footer">
+        made with intention ✿ bypaloma.m
     </div>
 
 </div>
@@ -162,16 +147,17 @@ select {
 
 /* ---------- AFFIRMATIONS ---------- */
 const affirmations = [
-    "I design my life with softness, clarity, and intention.",
-    "I am becoming a woman who lives slowly but builds powerfully.",
-    "My life reflects my inner peace and feminine alignment.",
-    "I choose presence over pressure in every moment.",
-    "I trust the life I am creating, even when I cannot see it fully.",
-    "I move with ease, purpose, and quiet confidence.",
+    "I design my life with softness, intention, and clarity.",
+    "I am becoming a woman who moves with peace and purpose.",
+    "My life reflects my inner alignment and feminine power.",
+    "I choose presence, beauty, and intentional creation.",
+    "I trust the life I am building, even when it feels slow.",
+    "I move with calm confidence and quiet discipline.",
     "Everything I do is shaping a life I deeply love.",
-    "I am intentional with my energy, my time, and my becoming."
+    "I am intentional with my energy, time, and becoming."
 ];
 
+/* ---------- DAILY LOCK ---------- */
 function getDailyAffirmation() {
     const today = new Date();
     const seed = today.getFullYear() + today.getMonth() + today.getDate();
